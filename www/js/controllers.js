@@ -46,22 +46,19 @@ angular.module('starter.controllers', ['app.service.datecsprinter'])
     $scope.printTest = function() {
       DatecsPrinter.listBluetoothDevices()
         .then(function (addresses) {
-          DatecsPrinter.connect(addresses[0])
-            .then(function (success) {
-              DatecsPrinter.printText("Printing test!{br}")
-                .then(function (success) {
-                  DatecsPrinter.feedPaper(100)
-                    .then(function (success) {
-                      DatecsPrinter.disconnect();
-                    });
-                });
-            })
-            .catch(function (error) {
-              alert("Error!");
-            });
+          return DatecsPrinter.connect(addresses[0]);
+        })
+        .then(function (success) {
+          return DatecsPrinter.printText("Printing test!{br}");
+        })
+        .then(function (success) {
+          return DatecsPrinter.feedPaper(100);
+        })
+        .then(function (success) {
+          return DatecsPrinter.disconnect();
         })
         .catch(function (error) {
-          alert("Error listing devices!");
+          alert("Error!");
         });
     };
 
